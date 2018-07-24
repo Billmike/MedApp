@@ -1,0 +1,35 @@
+{
+  "name": "MedApp",
+  "version": "1.0.0",
+  "description": "A medical app API",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "nodemon --exec babel-node ./server/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/billmike/MedApp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/billmike/MedApp/issues"
+  },
+  "homepage": "https://github.com/billmike/MedApp#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "mongoose": "^5.2.5"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^17.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.10.0",
+    "nodemon": "^1.18.3"
+  }
+}
