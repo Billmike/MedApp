@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 const StaffSchema = new Schema({
   firstName: {
@@ -9,6 +9,10 @@ const StaffSchema = new Schema({
     type: String,
     required: true
   },
+  email: {
+    type: String,
+    required: true,
+  },
   jobDescription: {
     type: String,
     required: true,
@@ -18,3 +22,5 @@ const StaffSchema = new Schema({
     required: true
   }
 });
+
+export default mongoose.model('StaffSchema', StaffSchema);
