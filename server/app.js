@@ -4,6 +4,9 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dbKey from './config/config';
 import staffRoute from './routes/staff.routes';
+import patientRoute from './routes/patient.routes';
+
+require('dotenv').config();
 
 const app = express();
 let mongoDB;
@@ -27,6 +30,7 @@ db.on('error',
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/staff', staffRoute);
+app.use('/patient', patientRoute);
 
 app.listen(PORT, () => {
   console.log(`App is listening on port: ${PORT}`);

@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 const PatientSchema = new Schema({
   firstName: {
@@ -31,7 +31,7 @@ const PatientSchema = new Schema({
     required: true
   },
   maritalStatus: {
-    type: true,
+    type: String,
     required: true
   },
   nextOfKin: {
@@ -57,5 +57,11 @@ const PatientSchema = new Schema({
   photograph: {
     type: String,
     required: true
+  },
+  healthInsuranceNumber: {
+    type: String,
+    required: true,
   }
 });
+
+export default mongoose.model('PatientSchema', PatientSchema);
