@@ -6,7 +6,7 @@ import dbKey from '../../config/config';
 import StaffModel from '../../models/staff.model';
 
 describe('Tests for staff model', () => {
-  before((done) => {
+  beforeAll((done) => {
     mongoose.connect(dbKey.testDB);
     const db = mongoose.connection;
     db.on('error', console.error.bind(console, 'Connection error'));
@@ -26,7 +26,7 @@ describe('Tests for staff model', () => {
         password: 'qwertyuiop'
       });
 
-      newUser.save((err, response) => {
+      newUser.save((err, response: any) => {
         expect(response).to.be.an('object');
         expect(response.firstName).to.equal('James');
         expect(response.lastName).to.equal('Bond');
@@ -109,7 +109,7 @@ describe('Tests for staff model', () => {
     });
   });
 
-  after((done) => {
+  afterAll((done) => {
     mongoose.connection.dropDatabase(() => {
       mongoose.connection.close(done);
     });
