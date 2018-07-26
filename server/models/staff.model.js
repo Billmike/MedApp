@@ -12,6 +12,7 @@ const StaffSchema = new Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   jobDescription: {
     type: String,
