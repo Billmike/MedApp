@@ -1,10 +1,19 @@
+process.env.NODE_ENV = 'development';
+
 import express from 'express';
 import mongoose from 'mongoose';
 import dbKey from './config/config';
 import staffRoute from './routes/staff.routes';
 
 const app = express();
-const mongoDB = process.env.MONGODB_URI || dbKey.localHost;
+let mongoDB;
+
+if (process.env.NODE_ENV === 'test') {
+  mongoDB = dbKey.testDB;
+} else if (process.env.NODE_ENV === 'development') {
+  mongoDB = dbKey.localHost;
+}
+
 
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
@@ -22,3 +31,5 @@ app.use('/staff', staffRoute);
 app.listen(PORT, () => {
   console.log(`App is listening on port: ${PORT}`);
 });
+
+export default app;
