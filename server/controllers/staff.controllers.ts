@@ -1,16 +1,17 @@
+import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import staffModel from '../models/staff.model';
 import generateToken from '../helpers/jwtsign.helper';
 import validateSignUp from '../helpers/validateSignup.helpers';
 
 class StaffController {
-  static staffSignup(request, response) {
+  static staffSignup(request: Request, response: Response) {
 
     const { error, valid } = validateSignUp(request.body);
-    if (!valid) {
+    if (valid >= 1) {
       return response.status(400).send(error);
     }
-    staffModel.findOne({ email: request.body.email }).then((foundUser) => {
+    staffModel.findOne({ email: request.body.email }).then((foundUser: any) => {
       if (foundUser) {
         return response.status(409).json({
           message: 'This user already exists'
@@ -24,7 +25,7 @@ class StaffController {
         jobDescription: request.body.jobDescription,
         email: request.body.email,
         password: hashedPassword
-      }).then((newUser) => {
+      }).then((newUser: any) => {
         if (!newUser) {
           return response.status(500).json({
             message: 'Something bloody went wrong'
@@ -46,9 +47,9 @@ class StaffController {
       });
   }
 
-  static staffSignin(request, response) {
+  static staffSignin(request: Request, response: Response) {
 
-    staffModel.findOne({ email: request.body.email }).then((foundUser) => {
+    staffModel.findOne({ email: request.body.email }).then((foundUser: any) => {
       if (!foundUser) {
         return response.status(400).json({
           message: 'Invalid email or password.'

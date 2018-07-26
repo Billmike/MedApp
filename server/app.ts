@@ -5,8 +5,9 @@ import mongoose from 'mongoose';
 import dbKey from './config/config';
 import staffRoute from './routes/staff.routes';
 import patientRoute from './routes/patient.routes';
+import dotenv from 'dotenv';
 
-require('dotenv').config();
+dotenv.config({ path: '.env' });
 
 const app = express();
 let mongoDB;
@@ -19,7 +20,7 @@ if (process.env.NODE_ENV === 'test') {
 
 
 mongoose.connect(mongoDB);
-mongoose.Promise = global.Promise;
+(<any>mongoose).Promise = global.Promise;
 
 const PORT = 5000;
 

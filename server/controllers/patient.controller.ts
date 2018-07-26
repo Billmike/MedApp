@@ -1,8 +1,9 @@
+import { Request, Response } from 'express';
 import patientModel from '../models/patient.model';
 import generateUserId from '../helpers/generateUserId.helpers';
 
 class Patient {
-  static registerPatient(request, response) {
+  static registerPatient(request: Request, response: Response) {
     const randomUserId = generateUserId();
     patientModel.create({
       firstName: request.body.firstName,
@@ -20,7 +21,7 @@ class Patient {
       nextOfKinNumber: request.body.nextOfKinNumber,
       photograph: request.body.photograph,
       healthInsuranceNumber: randomUserId,
-    }).then((newPatient) => {
+    }).then((newPatient: any) => {
       if (!newPatient) {
         return response.status(400).json({
           message: 'Something went wrong creating this user'
@@ -39,9 +40,9 @@ class Patient {
       });
   }
 
-  static getPatientRecords(request, response) {
+  static getPatientRecords(request: Request, response: Response) {
     patientModel.find({ healthInsuranceNumber: request.params.healthInsuranceNumber })
-      .then((foundPatient) => {
+      .then((foundPatient: any) => {
         if (foundPatient.length <= 0) {
           return response.status(400).json({
             message: 'No record for patient with this ID'
