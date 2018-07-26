@@ -6,7 +6,7 @@ const generateToken = (id, firstName, lastName, email) => {
     firstName,
     lastName,
     email
-  }, 'secretkeyhere', { expiresIn: '30 days' });
+  }, process.env.secretkey, { expiresIn: '30 days' });
   return token;
 };
 
