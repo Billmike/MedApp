@@ -2,7 +2,19 @@ import { Request, Response } from 'express';
 import patientModel from '../models/patient.model';
 import generateUserId from '../helpers/generateUserId.helpers';
 
+/**
+ * Patient class
+ */
 class Patient {
+  /**
+   * This method is responsible for the registration of patients
+   *
+   * @memberof Patient
+   * @param request The request object
+   * @param response The response object
+   * 
+   * @returns {object} The response object
+   */
   static registerPatient(request: Request, response: Response) {
     const randomUserId = generateUserId();
     patientModel.create({
@@ -40,6 +52,15 @@ class Patient {
       });
   }
 
+  /**
+   * This method handler is responsible for getting patients details
+   *
+   * @memberof Patient
+   * @param request The request object
+   * @param response The response object
+   * 
+   * @returns {object} The response object
+   */
   static getPatientRecords(request: Request, response: Response) {
     patientModel.find({ healthInsuranceNumber: request.params.healthInsuranceNumber })
       .then((foundPatient: any) => {
