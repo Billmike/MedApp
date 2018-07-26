@@ -7,7 +7,7 @@ class Patient {
     patientModel.create({
       firstName: request.body.firstName,
       lastName: request.body.lastName,
-      address: request.body.lastName,
+      address: request.body.address,
       state: request.body.state,
       occupation: request.body.occupation,
       placeOfWork: request.body.placeOfWork,
@@ -35,6 +35,25 @@ class Patient {
       .catch((error) => {
         return response.status(500).json({
           message: error.message
+        });
+      });
+  }
+
+  static getPatientRecords(request, response) {
+    patientModel.find({ healthInsuranceNumber: request.params.healthInsuranceNumber })
+      .then((foundPatient) => {
+        if (foundPatient.length <= 0) {
+          return response.status(400).json({
+            message: 'No record for patient with this ID'
+          });
+        }
+        return response.status(200).json({
+          message: `Patient with ID number: ${request.params.healthInsuranceNumber} found`,
+          userDetails: foundPatient
+        });
+      }).catch((error) => {
+        return response.status(500).json({
+          message: 'An error occurred.'
         });
       });
   }
