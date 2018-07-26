@@ -3,7 +3,6 @@ process.env.NODE_ENV = 'test';
 import { expect } from 'chai';
 import supertest from 'supertest';
 import mongoose from 'mongoose';
-import StaffSchema from '../../models/staff.model';
 import app from '../../app';
 import dbKey from '../../config/config';
 
@@ -12,7 +11,7 @@ const staffSignup = '/staff/signup';
 const staffSignin = '/staff/signin';
 
 describe('Authentication test', () => {
-  before((done) => {
+  beforeAll((done) => {
     mongoose.connect(dbKey.testDB);
     const db = mongoose.connection;
     db.on('error', console.error.bind(console, 'Connection error'));
@@ -55,9 +54,9 @@ describe('Authentication test', () => {
       .set('Content-Type', 'application/json')
       .send(copyTestUser)
       .end((error, response) => {
-        expect(response.body).to.be.an('object');
+        expect(response.body).to.be.an('array');
         expect(response.status).to.equal(400);
-        expect(response.body.firstName)
+        expect(response.body[0].message)
           .to.equal('Please enter your first name.');
         done();
       });
@@ -71,8 +70,8 @@ describe('Authentication test', () => {
       .set('Content-Type', 'application/json')
       .send(copyTestUser)
       .end((error, response) => {
-        expect(response.body).to.be.an('object');
-        expect(response.body.lastName).to.equal('Please enter your last name.');
+        expect(response.body).to.be.an('array');
+        expect(response.body[0].message).to.equal('Please enter your last name.');
         expect(response.status).to.equal(400);
         done();
       });
@@ -87,7 +86,7 @@ describe('Authentication test', () => {
       .send(copyTestUser)
       .end((error, response) => {
         expect(response.status).to.equal(400);
-        expect(response.body.email)
+        expect(response.body[0].message)
           .to.equal('Please enter a valid email address.');
         done();
       });
@@ -102,7 +101,7 @@ describe('Authentication test', () => {
       .send(copyTestUser)
       .end((error, response) => {
         expect(response.status).to.equal(400);
-        expect(response.body.jobDescription)
+        expect(response.body[0].message)
           .to.equal('Your job description is required.');
         done();
       });
@@ -152,7 +151,7 @@ describe('Authentication test', () => {
       });
   });
 
-  after((done) => {
+  afterAll((done) => {
     mongoose.connection.dropDatabase(() => {
       mongoose.connection.close(done);
     });
