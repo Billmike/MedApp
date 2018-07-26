@@ -9,6 +9,7 @@ import dbKey from '../../config/config';
 
 const request = supertest(app);
 const staffSignup = '/staff/signup';
+const staffSignin = '/staff/signin';
 
 describe('Authentication test', () => {
   before((done) => {
@@ -120,6 +121,36 @@ describe('Authentication test', () => {
           done();
         });
     });
+
+  it('should signin a user that is already signed up', (done) => {
+    request.post(staffSignin)
+      .set('Connection', 'keep alive')
+      .set('Content-Type', 'application/json')
+      .send(testUser)
+      .end((error, response) => {
+        expect(response.body).to.be.an('object');
+        expect(response.body.token).to.be.a('string');
+        done();
+      });
+  });
+
+  it('should fail to sign a user in who does not exist', (done) => {
+    const trialUser = {
+      email: 'testit@gmail.com',
+      password: 'calamityp'
+    };
+
+    request.post(staffSignin)
+      .set('Connection', 'keep alive')
+      .set('Content-Type', 'application/json')
+      .send(trialUser)
+      .end((error, response) => {
+        expect(response.body).to.be.an('object');
+        expect(response.body.message)
+          .to.equal('Invalid email or password.');
+        done();
+      });
+  });
 
   after((done) => {
     mongoose.connection.dropDatabase(() => {

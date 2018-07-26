@@ -1,10 +1,11 @@
 import bcrypt from 'bcrypt';
 import staffModel from '../models/staff.model';
+import generateToken from '../helpers/jwtsign.helper';
 import validateSignUp from '../helpers/validateSignup.helpers';
-
 
 class StaffController {
   static staffSignup(request, response) {
+
     const { error, valid } = validateSignUp(request.body);
     if (!valid) {
       return response.status(400).send(error);
@@ -29,7 +30,7 @@ class StaffController {
             message: 'Something bloody went wrong'
           });
         }
-        response.status(201).json({
+        return response.status(201).json({
           message: 'User created successfully',
           firstName: newUser.firstName,
           lastName: newUser.lastName,
@@ -37,7 +38,45 @@ class StaffController {
           jobDescription: newUser.jobDescription
         });
       });
-    });
+    })
+      .catch((error) => {
+        return response.status(500).json({
+          message: 'Error occurred here'
+        });
+      });
+  }
+
+  static staffSignin(request, response) {
+
+    staffModel.findOne({ email: request.body.email }).then((foundUser) => {
+      if (!foundUser) {
+        return response.status(400).json({
+          message: 'Invalid email or password.'
+        });
+      }
+
+      const unHashedPassword = bcrypt
+        .compareSync(request.body.password, foundUser.password);
+
+      if (!unHashedPassword) {
+        return response.status(400).json({
+          message: 'Invalid email or password.'
+        });
+      }
+
+      const token = generateToken(foundUser.id,
+        foundUser.firstName, foundUser.lastName, foundUser.email);
+
+      return response.status(200).json({
+        message: 'Sign in successful.',
+        token,
+      });
+    })
+      .catch((error) => {
+        return response.status(500).json({
+          message: 'Something happened'
+        });
+      });
   }
 }
 
