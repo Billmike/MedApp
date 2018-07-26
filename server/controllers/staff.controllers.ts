@@ -4,7 +4,19 @@ import staffModel from '../models/staff.model';
 import generateToken from '../helpers/jwtsign.helper';
 import validateSignUp from '../helpers/validateSignup.helpers';
 
+/**
+ * The Staff class
+ */
 class StaffController {
+  /**
+   * This method handler is responsible for signing up a staff
+   *
+   * @memberof StaffController
+   * @param request The request object
+   * @param response The response object
+   * 
+   * @returns {object} The response object
+   */
   static staffSignup(request: Request, response: Response) {
 
     const { error, valid } = validateSignUp(request.body);
@@ -47,6 +59,15 @@ class StaffController {
       });
   }
 
+  /**
+   * This method handler is responsible for signing a staff in
+   * 
+   * @memberof StaffController
+   * @param request The request object
+   * @param response The response object
+   * 
+   * @returns {object} The response object
+   */
   static staffSignin(request: Request, response: Response) {
 
     staffModel.findOne({ email: request.body.email }).then((foundUser: any) => {
