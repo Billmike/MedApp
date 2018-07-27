@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import dbKey from './config/config';
 import staffRoute from './routes/staff.routes';
 import patientRoute from './routes/patient.routes';
+import diagnosisRoute from './routes/diagnosis.routes';
 import dotenv from 'dotenv';
 
 dotenv.config({ path: '.env' });
@@ -32,6 +33,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/staff', staffRoute);
 app.use('/patient', patientRoute);
+app.use('/patient/diagnosis', diagnosisRoute);
 
 app.listen(PORT, () => {
   console.log(`App is listening on port: ${PORT}`);
