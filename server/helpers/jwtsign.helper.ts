@@ -10,7 +10,7 @@ import jwt from 'jsonwebtoken';
  * 
  * @returns {string} The token
  */
-const generateToken = (id: any, firstName: string, lastName: string, email: string) => {
+export const generateToken = (id: any, firstName: string, lastName: string, email: string) => {
   const token = jwt.sign({
     id,
     firstName,
@@ -19,5 +19,3 @@ const generateToken = (id: any, firstName: string, lastName: string, email: stri
   }, process.env.secretkey, { expiresIn: '30 days' });
   return token;
 };
-
-export default generateToken;

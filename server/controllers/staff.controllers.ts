@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import staffModel from '../models/staff.model';
-import generateToken from '../helpers/jwtsign.helper';
+import { generateToken } from '../helpers/jwtsign.helper';
 import validateSignUp from '../helpers/validateSignup.helpers';
 
 /**
